@@ -1,0 +1,19 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Installation de curl
+      apk:
+        name: curl
+        update_cache: yes
+- hosts: lb web
+  gather_facts: no
+  tasks:
+    - name: Installation de nginx
+      apk:
+        name: nginx
+        update_cache: yes
+    - name: Redémarrage de nginx
+      service:
+        name: nginx
+        state: restarted
