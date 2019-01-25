@@ -1,0 +1,12 @@
+---
+- name: Installation des serveurs front
+  gather_facts: no
+  hosts: web
+  roles:
+    - nginx_server
+
+- name: Installation du load balancer
+  gather_facts: no
+  hosts: lb
+  roles:
+    - nginx_server
