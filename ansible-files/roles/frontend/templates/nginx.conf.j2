@@ -1,0 +1,9 @@
+server {
+    listen {{nginx_port}} default_server;
+
+    root /www/data/{{app_name}};
+
+    location / {
+      try_files $uri $uri/ /index.html;
+    }
+}

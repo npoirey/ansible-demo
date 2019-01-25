@@ -4,6 +4,7 @@
   hosts: web
   roles:
     - nginx_server
+    - frontend
 
 - name: Installation du load balancer
   gather_facts: no

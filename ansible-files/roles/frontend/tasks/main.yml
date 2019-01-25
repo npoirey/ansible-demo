@@ -1,0 +1,12 @@
+---
+- name: Exploitation | Vérification du dossier d'installation
+  file: path={{static_files_dir}} state=directory
+
+- name: Exploitation | Copie des fichiers compilés
+  copy: src=files/ dest={{static_files_dir}}
+
+- name: Exploitation | Mise en place de la configuration nginx
+  template: src=nginx.conf.j2 dest={{nginx_config_dir}}/{{app_name}}.conf
+
+- name: Exploitation | Redémarrage nginx
+  service: name=nginx state=restarted
