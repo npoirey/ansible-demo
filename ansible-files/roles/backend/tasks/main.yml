@@ -1,0 +1,39 @@
+---
+- name: Installation de node
+  apk: name=nodejs update_cache=yes
+
+- name: Installation de nodejs-npm
+  apk: name=nodejs-npm update_cache=yes
+
+- name: Arrêt de node | récupération du PID
+  shell: "ps -ef | grep -v grep | grep -w node | awk '{print $1}'"
+  register: running_processes
+
+- name: Arrêt de node | kill {{ item }}
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+
+- wait_for:
+    path: "/proc/{{ item }}/status"
+    state: absent
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+  register: killed_processes
+
+- name: Arrêt de node | force kill {{ item }}
+  shell: "kill -9 {{ item }}"
+  with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
+
+- name: Vérification du dossier de déploiement
+  file: path={{node_app_dir}} state=directory
+
+- name: Dépose des fichiers
+  copy: src=files/ dest={{node_app_dir}}
+
+- name: Installation des packages suivant package.json
+  npm: path={{node_app_dir}}
+
+- name: Démarrage de node
+  shell: "npm start"
+  args:
+    chdir: "{{node_app_dir}}"

@@ -1,0 +1,3 @@
+---
+node_app_dir: /opt/{{app_name}}
+nginx_port: 80

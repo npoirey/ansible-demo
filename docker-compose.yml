@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  ansible:
+    build:
+      context: ./docker
+      dockerfile: ansible-dockerfile
+    privileged: true
+    command: tail -f > /dev/null
+    container_name: ansible
+    working_dir: /home/ansible
+    volumes:
+      - ./ansible-files:/home/ansible
+      - //var/run/docker.sock:/var/run/docker.sock
+  alpine1:
+    build:
+      context: ./docker
+      dockerfile: alpine-dockerfile
+    container_name: alpine1
+    ports:
+      - 8081:80
+  alpine2:
+    build:
+      context: ./docker
+      dockerfile: alpine-dockerfile
+    container_name: alpine2
+    ports:
+      - 8082:80
+  alpine3:
+    build:
+      context: ./docker
+      dockerfile: alpine-dockerfile
+    container_name: alpine3
+    ports:
+      - 8083:80
+  alpine4:
+    build:
+      context: ./docker
+      dockerfile: alpine-dockerfile
+    container_name: alpine4
+    ports:
+      - 8084:80
+  alpine5:
+    build:
+      context: ./docker
+      dockerfile: alpine-dockerfile
+    container_name: alpine5
+    ports:
+      - 8085:80
