@@ -12,3 +12,9 @@
   roles:
     - nginx_server
     - load_balancer
+
+- name: Installation serveurs backend
+  gather_facts: no
+  hosts: app
+  roles:
+    - backend
