@@ -1,0 +1,24 @@
+    upstream {{app_name}}_frontend {
+        {% for item in groups['web'] %}
+        server {{item}};
+        {% endfor %}
+    }
+
+    upstream {{app_name}}_backend {
+        {% for item in groups['app'] %}
+        server {{item}};
+        {% endfor %}
+    }
+
+    server {
+        listen {{nginx_port}};
+
+        location / {
+            proxy_pass http://{{app_name}}_frontend;
+        }
+
+        location /app {
+            proxy_pass http://{{app_name}}_backend;
+        }
+    }
+

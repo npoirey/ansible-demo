@@ -1,0 +1,6 @@
+---
+- name: Exploitation | Mise en place de la configuration nginx
+  template: src=nginx.conf.j2 dest={{nginx_config_dir}}/load_balancer.conf
+
+- name: Exploitation | Redémarrage nginx
+  service: name=nginx state=restarted

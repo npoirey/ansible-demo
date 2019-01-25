@@ -11,3 +11,4 @@
   hosts: lb
   roles:
     - nginx_server
+    - load_balancer
